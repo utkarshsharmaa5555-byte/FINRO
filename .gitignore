@@ -1,9 +1,7 @@
 node_modules
 web/dist
 .env*
+!.env.example
 .vercel
 *.exe
-
-.vercel
-.env*
 .neon

@@ -1,0 +1,209 @@
+CREATE TABLE IF NOT EXISTS users (
+  id BIGSERIAL PRIMARY KEY,
+  phone TEXT UNIQUE NOT NULL,
+  pin_hash TEXT NOT NULL,
+  name TEXT NOT NULL,
+  lang TEXT NOT NULL DEFAULT 'en',
+  role TEXT NOT NULL DEFAULT 'merchant',
+  prefs JSONB NOT NULL DEFAULT '{}',
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE TABLE IF NOT EXISTS profiles (
+  user_id BIGINT PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+  data JSONB NOT NULL DEFAULT '{}',
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE TABLE IF NOT EXISTS sessions (
+  id BIGSERIAL PRIMARY KEY,
+  user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  title TEXT NOT NULL DEFAULT '',
+  stage TEXT NOT NULL DEFAULT 'safety',
+  summary TEXT NOT NULL DEFAULT '',
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS sessions_user ON sessions(user_id, updated_at DESC);
+CREATE TABLE IF NOT EXISTS messages (
+  id BIGSERIAL PRIMARY KEY,
+  session_id BIGINT NOT NULL REFERENCES sessions(id) ON DELETE CASCADE,
+  role TEXT NOT NULL,
+  content TEXT NOT NULL DEFAULT '',
+  meta JSONB NOT NULL DEFAULT '{}',
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS messages_session ON messages(session_id, id);
+CREATE TABLE IF NOT EXISTS qr_codes (
+  id BIGSERIAL PRIMARY KEY,
+  user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  vpa TEXT NOT NULL,
+  payee TEXT NOT NULL,
+  amount_paise BIGINT,
+  upi_link TEXT NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE TABLE IF NOT EXISTS ledger_entries (
+  id BIGSERIAL PRIMARY KEY,
+  user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  entry_date DATE NOT NULL DEFAULT CURRENT_DATE,
+  kind TEXT NOT NULL CHECK (kind IN ('sale','expense','udhaar_given','udhaar_received')),
+  amount_paise BIGINT NOT NULL CHECK (amount_paise > 0),
+  note TEXT NOT NULL DEFAULT '',
+  party TEXT NOT NULL DEFAULT '',
+  source TEXT NOT NULL DEFAULT 'text',
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS ledger_user_date ON ledger_entries(user_id, entry_date DESC);
+CREATE TABLE IF NOT EXISTS memories (
+  id BIGSERIAL PRIMARY KEY,
+  user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  fact TEXT NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS memories_user ON memories(user_id);
+CREATE TABLE IF NOT EXISTS blueprints (
+  id BIGSERIAL PRIMARY KEY,
+  user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  data JSONB NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS blueprints_user ON blueprints(user_id, id DESC);
+CREATE TABLE IF NOT EXISTS grants (
+  id BIGSERIAL PRIMARY KEY,
+  source TEXT NOT NULL,
+  source_url TEXT UNIQUE NOT NULL,
+  title TEXT NOT NULL,
+  summary TEXT NOT NULL DEFAULT '',
+  amount_text TEXT NOT NULL DEFAULT '',
+  deadline DATE,
+  deadline_raw TEXT NOT NULL DEFAULT '',
+  eligibility TEXT NOT NULL DEFAULT '',
+  tags TEXT[] NOT NULL DEFAULT '{}',
+  fetched_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  first_seen TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE TABLE IF NOT EXISTS grant_fits (
+  blueprint_id BIGINT NOT NULL REFERENCES blueprints(id) ON DELETE CASCADE,
+  grant_id BIGINT NOT NULL REFERENCES grants(id) ON DELETE CASCADE,
+  score INT NOT NULL,
+  verdict TEXT NOT NULL,
+  result JSONB NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  PRIMARY KEY (blueprint_id, grant_id)
+);
+CREATE TABLE IF NOT EXISTS drafts (
+  id BIGSERIAL PRIMARY KEY,
+  user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  grant_id BIGINT NOT NULL REFERENCES grants(id) ON DELETE CASCADE,
+  blueprint_id BIGINT REFERENCES blueprints(id) ON DELETE SET NULL,
+  content JSONB NOT NULL,
+  status TEXT NOT NULL DEFAULT 'draft',
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE TABLE IF NOT EXISTS scraper_runs (
+  id BIGSERIAL PRIMARY KEY,
+  source TEXT NOT NULL,
+  ok BOOLEAN NOT NULL,
+  count INT NOT NULL DEFAULT 0,
+  error TEXT NOT NULL DEFAULT '',
+  ms INT NOT NULL DEFAULT 0,
+  ran_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE TABLE IF NOT EXISTS scam_patterns (
+  id BIGSERIAL PRIMARY KEY,
+  slug TEXT UNIQUE NOT NULL,
+  kind TEXT NOT NULL DEFAULT 'catalogue',
+  title TEXT NOT NULL,
+  description TEXT NOT NULL,
+  red_flags JSONB NOT NULL DEFAULT '[]',
+  actions JSONB NOT NULL DEFAULT '[]',
+  source_url TEXT NOT NULL DEFAULT '',
+  pattern_slug TEXT NOT NULL DEFAULT '',
+  published_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE TABLE IF NOT EXISTS scam_checks (
+  id BIGSERIAL PRIMARY KEY,
+  user_id BIGINT REFERENCES users(id) ON DELETE CASCADE,
+  input TEXT NOT NULL,
+  verdict TEXT NOT NULL,
+  result JSONB NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE TABLE IF NOT EXISTS faqs (
+  id BIGSERIAL PRIMARY KEY,
+  topic TEXT NOT NULL,
+  q TEXT UNIQUE NOT NULL,
+  a TEXT NOT NULL,
+  sort INT NOT NULL DEFAULT 0
+);
+CREATE TABLE IF NOT EXISTS tickets (
+  id BIGSERIAL PRIMARY KEY,
+  user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  subject TEXT NOT NULL,
+  body TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'open',
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE TABLE IF NOT EXISTS translations (
+  hash TEXT NOT NULL,
+  lang TEXT NOT NULL,
+  text TEXT NOT NULL,
+  PRIMARY KEY (hash, lang)
+);
+CREATE TABLE IF NOT EXISTS ai_calls (
+  id BIGSERIAL PRIMARY KEY,
+  kind TEXT NOT NULL,
+  ms INT NOT NULL,
+  tokens INT NOT NULL DEFAULT 0,
+  ok BOOLEAN NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+ALTER TABLE grants ADD COLUMN IF NOT EXISTS link_ok BOOLEAN;
+ALTER TABLE grants ADD COLUMN IF NOT EXISTS link_checked_at TIMESTAMPTZ;
+CREATE TABLE IF NOT EXISTS stock_items (
+  id BIGSERIAL PRIMARY KEY,
+  user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  name TEXT NOT NULL,
+  kind TEXT NOT NULL DEFAULT 'product' CHECK (kind IN ('product','dish','ingredient')),
+  category TEXT NOT NULL DEFAULT '',
+  unit TEXT NOT NULL DEFAULT 'pcs',
+  qty DOUBLE PRECISION NOT NULL DEFAULT 0,
+  reorder_level DOUBLE PRECISION NOT NULL DEFAULT 0,
+  cost_paise BIGINT NOT NULL DEFAULT 0,
+  price_paise BIGINT NOT NULL DEFAULT 0,
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  UNIQUE (user_id, name)
+);
+CREATE TABLE IF NOT EXISTS stock_moves (
+  id BIGSERIAL PRIMARY KEY,
+  user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  item_id BIGINT NOT NULL REFERENCES stock_items(id) ON DELETE CASCADE,
+  move_date DATE NOT NULL DEFAULT CURRENT_DATE,
+  kind TEXT NOT NULL CHECK (kind IN ('sold','used','bought','wasted','adjust')),
+  qty DOUBLE PRECISION NOT NULL,
+  amount_paise BIGINT NOT NULL DEFAULT 0,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS stock_moves_item_date ON stock_moves(item_id, move_date);
+CREATE INDEX IF NOT EXISTS stock_moves_user_date ON stock_moves(user_id, move_date);
+CREATE TABLE IF NOT EXISTS ai_insights (
+  user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  kind TEXT NOT NULL,
+  lang TEXT NOT NULL,
+  data JSONB NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  PRIMARY KEY (user_id, kind, lang)
+);
+CREATE TABLE IF NOT EXISTS blueprint_images (
+  blueprint_id BIGINT NOT NULL REFERENCES blueprints(id) ON DELETE CASCADE,
+  slot TEXT NOT NULL,
+  mime TEXT NOT NULL,
+  img BYTEA NOT NULL,
+  prompt TEXT NOT NULL,
+  model TEXT NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  PRIMARY KEY (blueprint_id, slot)
+);
+ALTER TABLE ledger_entries ADD COLUMN IF NOT EXISTS item_id BIGINT REFERENCES stock_items(id) ON DELETE SET NULL;
+ALTER TABLE ledger_entries ADD COLUMN IF NOT EXISTS qty DOUBLE PRECISION;

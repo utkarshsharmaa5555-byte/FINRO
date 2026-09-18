@@ -1,0 +1,13 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "installCommand": "cd web && npm install",
+  "buildCommand": "cd web && npm run build",
+  "outputDirectory": "web/dist",
+  "regions": ["bom1"],
+  "crons": [{ "path": "/api/cron/refresh", "schedule": "30 0 * * *" }],
+  "functions": { "api/index.go": { "maxDuration": 120 } },
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/index" },
+    { "source": "/((?!assets/).*)", "destination": "/index.html" }
+  ]
+}

@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Finro — Team Q&A Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Hind:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  @page { size: A4; margin: 16mm 14mm 16mm 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Hind", system-ui, sans-serif; color: #1f2a44; background: #fff; font-size: 10.5pt; line-height: 1.5; margin: 0; }
+  h1, h2, h3, .display { font-family: "Rozha One", Georgia, serif; font-weight: 400; }
+  .mono { font-family: "Courier Prime", monospace; }
+  .cover { height: 250mm; display: flex; flex-direction: column; justify-content: center; page-break-after: always; }
+  .cover h1 { font-size: 42pt; line-height: 1; margin: 0 0 6mm; }
+  .cover .sub { font-size: 14pt; color: #505a73; max-width: 150mm; }
+  .stamp { display: inline-block; border: 2px solid #c8412b; outline: 1px solid #c8412b; outline-offset: 2px; color: #c8412b; font-family: "Courier Prime", monospace; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; font-size: 9pt; padding: 2px 8px; transform: rotate(-3deg); }
+  .cover .meta { margin-top: 10mm; font-family: "Courier Prime", monospace; font-size: 10pt; color: #505a73; }
+  .cover .meta b { color: #1f2a44; }
+  h2 { font-size: 20pt; margin: 0 0 2mm; padding-bottom: 1.5mm; border-bottom: 2.5px solid #1f2a44; }
+  h2 .n { color: #c8412b; margin-right: 3mm; font-family: "Courier Prime", monospace; font-size: 15pt; }
+  section { page-break-before: always; }
+  section.first { page-break-before: avoid; }
+  .lede { color: #505a73; margin: 0 0 5mm; font-size: 10pt; }
+  .qa { margin: 0 0 4.5mm; page-break-inside: avoid; }
+  .q { font-weight: 700; color: #1f2a44; margin-bottom: 1mm; }
+  .q::before { content: "Q"; font-family: "Courier Prime", monospace; color: #c8412b; margin-right: 2.5mm; font-weight: 700; }
+  .a { color: #2b3347; }
+  .a::before { content: "A"; font-family: "Courier Prime", monospace; color: #2f6b4f; margin-right: 2.5mm; font-weight: 700; }
+  .a code, .q code { font-family: "Courier Prime", monospace; background: #f4ede0; padding: 0 2px; border-radius: 2px; font-size: 9.5pt; }
+  .tip { border-left: 3px solid #c8901b; background: #fdf7e6; padding: 2.5mm 3.5mm; margin: 3mm 0; font-size: 9.5pt; }
+  .tip b { color: #8a6209; }
+  table { width: 100%; border-collapse: collapse; font-size: 9.5pt; margin: 3mm 0; }
+  th { text-align: left; border-bottom: 2px solid #1f2a44; padding: 1.5mm; text-transform: uppercase; font-size: 8pt; letter-spacing: .08em; color: #505a73; }
+  td { border-bottom: 1px solid #ddd0b8; padding: 1.5mm; vertical-align: top; }
+  .two { column-count: 2; column-gap: 8mm; }
+  .two .qa { break-inside: avoid; }
+  ul { margin: 1mm 0 0; padding-left: 5mm; }
+  li { margin-bottom: 0.8mm; }
+  .toc { font-size: 10.5pt; }
+  .toc li { margin-bottom: 1.5mm; }
+  footer { position: fixed; bottom: -10mm; left: 0; right: 0; font-size: 8pt; color: #7d8497; font-family: "Courier Prime", monospace; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <span class="stamp" style="align-self:flex-start">शुभ लाभ · Synora Track 03</span>
+  <h1>Finro<br />Team Q&amp;A Study Guide</h1>
+  <p class="sub">Every question a judge, mentor or teammate might ask — the product, the demo, the AI, the code, the honest limits. Written so a non-technical teammate can answer confidently, with the deep technical detail right after each simple answer.</p>
+  <div class="meta">
+    Live app · <b>munshi-ochre.vercel.app</b><br />
+    Repo · <b>github.com/tripathisarthak457/munshi</b> (private)<br />
+    Demo logins · <b>9000000001 / 1111</b> (Lakshmi, Telugu) · <b>9000000002 / 2222</b> (Ramesh, Hindi) · <b>9000000000 / 0000</b> (Mentor desk)<br />
+    Stack · Go serverless API + React (Vite) + Neon Postgres + OpenAI <span class="mono">gpt-4.1-mini</span>, hosted on Vercel (Mumbai)
+  </div>
+  <ol class="toc" style="margin-top:12mm">
+    <li>The 30-second answers</li>
+    <li>The basics — for non-technical teammates</li>
+    <li>The demo, step by step</li>
+    <li>Feature by feature</li>
+    <li>How the AI actually works</li>
+    <li>Stopping the AI from making things up</li>
+    <li>Technical architecture</li>
+    <li>Live government data &amp; scraping</li>
+    <li>Security, privacy and money safety</li>
+    <li>Testing and what we verified</li>
+    <li>Honest limitations</li>
+    <li>Hard questions from judges</li>
+    <li>Plain-English glossary</li>
+  </ol>
+</div>
+
+<section class="first">
+<h2><span class="n">01</span>The 30-second answers</h2>
+<p class="lede">If you only remember three answers, remember these.</p>
+
+<div class="qa"><div class="q">What is Finro, in one sentence?</div>
+<div class="a">Finro is a conversational assistant for India's smallest businesses that starts by protecting them from UPI fraud and ends by filling in a real government funding application — in Telugu, Hindi, Tamil or English.</div></div>
+
+<div class="qa"><div class="q">Why does it matter?</div>
+<div class="a">A street vendor loses ₹450 to a fake payment screenshot and never applies for the ₹50,000 loan she qualifies for, because nobody explains either. Finro does both in one conversation, using her own daily records as the evidence a bank or scheme officer wants.</div></div>
+
+<div class="qa"><div class="q">What makes it different from asking ChatGPT?</div>
+<div class="a">Three things: every fact comes from a tool, not from the model's memory (grant deadlines are only shown if the exact words appear on the official government page); the numbers come from the merchant's own khata records, not from the model; and it remembers the business across sessions and walks a defined journey (safety → QR → khata → blueprint → funding → apply).</div></div>
+
+<div class="tip"><b>The demo line that lands:</b> "Watch the line above each reply — that's Finro actually calling a tool: <i>checked against 12 known scam patterns</i>, <i>matched 5 of 27 schemes to your state</i>. It isn't a chatbot guessing; it's a worker doing steps you can see."</div>
+</section>
+
+<section>
+<h2><span class="n">02</span>The basics — for non-technical teammates</h2>
+<p class="lede">You can answer all of these without touching the code.</p>
+
+<div class="qa"><div class="q">Who is Finro for?</div>
+<div class="a">Micro-entrepreneurs: street food carts, kirana shops, tailors, artisans, tea stalls — and first-time founders. People whose business is real but whose paperwork isn't.</div></div>
+
+<div class="qa"><div class="q">What does the name mean?</div>
+<div class="a">A <i>munshi</i> is the trusted clerk-accountant who traditionally kept a merchant's ledger and wrote their letters and applications. Finro brings that essential role into the digital smartphone era.</div></div>
+
+<div class="qa"><div class="q">Why does the app look like a cloth-bound ledger?</div>
+<div class="a">Because that is what the user already trusts. The red cloth spine, cream ruled paper, rubber-stamp badges and typewriter numerals come from the <i>bahi-khata</i> that sits on every shop counter. It deliberately avoids looking like a generic AI product.</div></div>
+
+<div class="qa"><div class="q">Does Finro touch the merchant's money?</div>
+<div class="a">Never. It generates a standard UPI QR code that points at the merchant's own UPI ID, so payments go bank-to-bank as usual. Finro holds no money, has no wallet, and never asks for a UPI PIN, OTP, card or account number.</div></div>
+
+<div class="qa"><div class="q">What languages does it speak?</div>
+<div class="a">English, Hindi, Telugu and Tamil — the whole interface, the AI's replies, the read-aloud voice and the scheme explanations. You switch language from the top bar; the choice is saved to the account.</div></div>
+
+<div class="qa"><div class="q">Do you need to type? Many vendors can't type fast.</div>
+<div class="a">No. You can talk to it — tap the mic and speak in your language — or photograph a handwritten bill and Finro reads the entries out of the photo. It can also read its answers aloud.</div></div>
+
+<div class="qa"><div class="q">Is the data in the demo real?</div>
+<div class="a">Two kinds. The <b>government scheme and grant data is real and live</b>, read from official websites. The <b>three merchant accounts are realistic sample data</b> we generated — 45 days of item-level sales, purchases, udhaar and chat history — so every screen has something true to show in a two-minute demo.</div></div>
+
+<div class="qa"><div class="q">What does it cost to run?</div>
+<div class="a">Almost nothing at demo scale: free Vercel hosting, free Neon Postgres tier, and a few paise of AI usage per conversation because we use a small, fast model (<span class="mono">gpt-4.1-mini</span>) and cache translations in the database.</div></div>
+
+<div class="qa"><div class="q">Does it work on a cheap phone?</div>
+<div class="a">Yes — it is a website, not an app to install, and the phone layout is the primary design. The JavaScript bundle is about 110 KB compressed. Voice uses the phone's own speech engine, so it doesn't need a big download.</div></div>
+
+<div class="qa"><div class="q">Does it work offline?</div>
+<div class="a">No. That is a genuine limitation we state openly: the AI, the scheme data and the records all live on the server. Offline entry with later sync is the obvious next step.</div></div>
+</section>
+
+<section>
+<h2><span class="n">03</span>The demo, step by step</h2>
+<p class="lede">The path we rehearse. Roughly three minutes.</p>
+
+<table>
+  <tr><th style="width:8mm">#</th><th>Do this</th><th>Say this</th></tr>
+  <tr><td>1</td><td>Open the landing page, toggle dark mode, switch language to Telugu.</td><td>"The counters are live from our database — schemes tracked, scam patterns, when sources were last checked."</td></tr>
+  <tr><td>2</td><td>Log in with one tap as <b>Lakshmi</b> (idli cart, Telugu).</td><td>"Her whole business is already in here: 45 days of khata, her cart's stock, past conversations."</td></tr>
+  <tr><td>3</td><td>Paste a scam message: <i>"Accept this request to receive ₹5,000 for your order — enter UPI PIN"</i>.</td><td>"Look at the trail: it checked 12 known patterns. SCAM stamp, the warning signs it found, and what to do — in Telugu. Tap the speaker to hear it."</td></tr>
+  <tr><td>4</td><td>Tap the suggestion chip → UPI QR → <b>Print standee</b>.</td><td>"A real UPI QR, plus a counter poster that warns her customers about the same scam."</td></tr>
+  <tr><td>5</td><td>Open <b>Overview</b>.</td><td>"Masala dosa up 22%, vada down 23%, urad dal runs out in under two days — all computed from her records, no AI guessing."</td></tr>
+  <tr><td>6</td><td>Open <b>Khata</b> → <b>Analyse my sales</b>.</td><td>"Now the AI reads those numbers and says what to buy more and less of. The quantities are calculated by us; the AI writes the reasoning."</td></tr>
+  <tr><td>7</td><td>Ask in chat: <i>"Which government schemes help me buy a second cart?"</i></td><td>"It asks only for what it doesn't know — stage and what help she needs — then filters by Andhra Pradesh, and each card links to the official site."</td></tr>
+  <tr><td>8</td><td>Open <b>Blueprint</b> → Flowchart.</td><td>"Her plan as a flowchart, with AI-drawn illustrations: today, the investment, the 12-month vision. The financial boxes come from her khata."</td></tr>
+  <tr><td>9</td><td>Switch to <b>Ramesh</b> (Hindi kirana) → <b>Matching</b> → Check eligibility.</td><td>"Rule by rule: pass, fail, or unknown, with the scheme's own words quoted. A biotech research call is correctly excluded."</td></tr>
+  <tr><td>10</td><td><b>Draft application</b> → export DOCX.</td><td>"Filled from the blueprint. What it doesn't know is marked NEEDED in yellow — never invented."</td></tr>
+  <tr><td>11</td><td>Log in as <b>Mentor desk</b>.</td><td>"Source health, scraper runs, AI latency and token use, support tickets."</td></tr>
+</table>
+
+<div class="qa"><div class="q">How do we reset the demo data between judging rounds?</div>
+<div class="a">Run <span class="mono">go run ./cmd/dev reset-demo</span> from the project folder. It deletes the three demo accounts and regenerates everything — profiles, 45 days of stock and khata, chats, tickets — in about two minutes. Optionally run <span class="mono">node scripts/prime-demo.mjs</span> to pre-build each persona's AI advice, blueprint and illustrations so nothing has to be generated live.</div></div>
+
+<div class="qa"><div class="q">What if the internet is slow during the demo?</div>
+<div class="a">Everything except the AI replies is already stored: the seeded chats, the blueprint, the illustrations and the cached stock advice all load instantly. If a live AI call is slow, the tool trail keeps showing what it's doing, and the fallbacks (browser voice, drawn scenes, cached advice) mean nothing looks broken.</div></div>
+
+<div class="qa"><div class="q">How long do the AI features take?</div>
+<div class="a">Chat replies 6–14 seconds (they include real tool calls), stock advice 4–9 s, blueprint 6–8 s, eligibility matching 6–11 s, application draft about 8 s, the three illustrations 20–26 s in parallel.</div></div>
+</section>
+
+<section>
+<h2><span class="n">04</span>Feature by feature</h2>
+<p class="lede">What each screen does, and the sentence that explains why it exists.</p>
+
+<div class="qa"><div class="q">Fraud desk — what does it do?</div>
+<div class="a">You paste a suspicious SMS, WhatsApp message or a screenshot (or describe a phone call) and it answers with a verdict — SCAM, SUSPICIOUS or LOOKS SAFE — the patterns it matched, the specific warning signs it found in <i>your</i> message, and 2–4 actions, plus the 1930 helpline if money may already be gone.</div></div>
+
+<div class="qa"><div class="q">Where do the scam patterns come from?</div>
+<div class="a">A curated catalogue of 12 patterns Indian merchants actually face — the "accept to receive money" collect request, fake payment screenshots, QR-to-receive, screen-sharing apps, KYC-expiry SMS, fake customer care, overpayment refunds, electricity disconnection, task-earning jobs, fake soundbox agents, QR sticker swaps and "digital arrest" calls — each with a link to an RBI, NPCI, PIB or cybercrime.gov.in source. On top of that, a daily job pulls Indian UPI-fraud news and the AI files each headline under one of those patterns, so the list stays current.</div></div>
+
+<div class="qa"><div class="q">Shop QR — is it a real UPI QR?</div>
+<div class="a">Yes. We build a standard NPCI-format <span class="mono">upi://pay</span> link with the merchant's verified UPI ID, their shop name and an optional fixed amount, then render it as a QR image. Any UPI app pays it. The printable standee adds a warning line in the merchant's language and reminds them to scan their own QR once to confirm their name appears.</div></div>
+
+<div class="qa"><div class="q">Khata — why does a merchant need it in an app?</div>
+<div class="a">Because the ledger is the evidence. No records means no loan, no scheme, no idea which item earns money. Finro makes recording almost free: speak it, type it, or photograph the bill — the AI turns it into entries, and you tap Save. Nothing is saved without that tap.</div></div>
+
+<div class="qa"><div class="q">What exactly does the khata track?</div>
+<div class="a">Sales, expenses, udhaar given (customers who owe you) and udhaar repaid, with dates, notes and the party's name. It shows sales vs expenses per day, profit, average daily sale, biggest expenses and who owes you how much. When an entry names a stock item, it also moves that item's stock.</div></div>
+
+<div class="qa"><div class="q">Stock — what does Finro do with it?</div>
+<div class="a">Every item has a type (product sold from the shelf, dish cooked fresh, or ingredient), a price, a cost and a stock count. From the movement history we compute: units sold per day over 7 and 30 days, the trend against the previous three weeks, days of stock left, margin, 30-day revenue, and a reorder quantity that covers a week of demand. Each item gets a status: out, critical, low, OK, overstock or not selling.</div></div>
+
+<div class="qa"><div class="q">And the AI suggestion feature?</div>
+<div class="a">Tap "Analyse my sales". The server hands the AI only those computed numbers; the AI decides which items to buy more of and less of and writes the reasoning in the merchant's language. The quantities shown are ours, not the model's. A guard rule then enforces common sense: an item that is out or nearly out can never be listed under "buy less", even if its sales look like they're falling — they're falling because the shelf is empty.</div></div>
+
+<div class="qa"><div class="q">Business overview — what's on it?</div>
+<div class="a">Today's (or yesterday's) sales, 7-day average with trend, 30-day profit, udhaar outstanding, stock value; then what's running out with days left and a suggested order; what sells, ranked by revenue with per-day run rates and trends; average sales by weekday with the best day highlighted; the 30-day sales chart; items slowing down; and the latest AI buying brief.</div></div>
+
+<div class="qa"><div class="q">Blueprint — what is it and who is it for?</div>
+<div class="a">A one-page business plan generated from the profile, the remembered facts, the khata numbers and the stock trends. It's what a bank officer or scheme evaluator asks for: what the business is, the problem, customers, revenue model, current financials, how much money is needed and for what, 12-month milestones, risks with mitigations, and what facts are still missing.</div></div>
+
+<div class="qa"><div class="q">Why show the blueprint as a flowchart?</div>
+<div class="a">Because a merchant who reads slowly can still follow arrows and pictures. The flow runs: where you are today → the opportunity → the investment (with a proportional bar of where the money goes) → milestones on a timeline → risks as diamond decision shapes with the response beside them → the 12-month vision. The text document version is still there as a second tab, for the officer who wants prose.</div></div>
+
+<div class="qa"><div class="q">What are the pictures in the flowchart?</div>
+<div class="a">AI-generated illustrations, one per stage. First the chat model writes three scene descriptions from the blueprint (the actual cart, city and trade), then an image model draws them in one consistent ledger style. On our current API key no image model is available, so the same chat model draws the scenes as SVG vector art instead — still AI-generated, and the code switches to the real image model automatically if the key gains access.</div></div>
+
+<div class="qa"><div class="q">Live funding — what's listed?</div>
+<div class="a">About 46 schemes and calls from three kinds of official source, each card showing the source, when it was last checked, the amount only if the page states it, the deadline only if quoted, and a link to the official page. Closed calls stay visible, marked closed — that honesty is part of the point.</div></div>
+
+<div class="qa"><div class="q">Scheme Finder — how is it different from the funding list?</div>
+<div class="a">The list is everything; the finder is <i>for you</i>. It asks only for the details it doesn't already know — state, gender, age, social category, business domain, stage and what help you need — as tap-to-answer chips, then recommends 3–6 schemes with why each fits you, what you get, how to apply, what to confirm on the site, plus next steps like getting Udyam registration and which documents to keep ready. State-specific schemes are filtered to your state.</div></div>
+
+<div class="qa"><div class="q">Matching — what does the score mean?</div>
+<div class="a">For each shortlisted scheme the AI lists that scheme's own eligibility rules and checks each one against the blueprint: pass, fail, or unknown, with the evidence and the scheme's exact words quoted. A clear fail on a mandatory rule forces "not a fit" and a score under 40. The "why not" section stays open so nothing is hidden.</div></div>
+
+<div class="qa"><div class="q">Applications — what do you get?</div>
+<div class="a">A draft with the sections these schemes ask for — applicant details, business description, current financials from the khata, funding requirement and use of funds, expected impact, repayment plan, declaration — plus a cover note and a document checklist ticked against what the profile says the merchant has. Anything unknown appears as a yellow <span class="mono">[NEEDED: …]</span> marker. Export as DOCX or print to PDF; sections are editable in the page.</div></div>
+
+<div class="qa"><div class="q">What's in the help desk and settings?</div>
+<div class="a">Twelve FAQs (translated into the user's language on demand), an "ask a question" box answered only from that FAQ knowledge base — it admits when it doesn't know and offers a ticket — and ticket raising. Settings covers name, language, theme, auto read-aloud, PIN change, clearing everything Finro remembers and deleting the account.</div></div>
+
+<div class="qa"><div class="q">What is the Mentor desk for?</div>
+<div class="a">It's the admin view for judges and mentors: counts across the system, health of every data source with the last error, every scraper run with timing, AI usage by kind with average and 90th-percentile latency and token totals, and support tickets. It's also a working merchant account (a sample tea counter) so the merchant features can be demoed from it.</div></div>
+</section>
+
+<section>
+<h2><span class="n">05</span>How the AI actually works</h2>
+<p class="lede">Explain this well and the technical judges relax.</p>
+
+<div class="qa"><div class="q">Which AI model do you use, and why that one?</div>
+<div class="a"><span class="mono">gpt-4.1-mini</span> from OpenAI, for every AI feature. It's fast and cheap enough for a merchant-facing app, supports tool calling, strict JSON output and image understanding. It is also the only model our hackathon key has access to, which is why we built fallbacks around it rather than depending on bigger models.</div></div>
+
+<div class="qa"><div class="q">What is "tool calling", in plain words?</div>
+<div class="a">We give the model a list of things the app can do — check a scam, make a QR, read the khata, search funding — and instead of answering from memory it can say "call <i>check_scam</i> with this text". Our Go code runs that function, returns the result, and the model writes the reply around real data. The line of ticks above each reply is that sequence, shown to the user.</div></div>
+
+<div class="qa"><div class="q">What tools does the agent have?</div>
+<div class="a">Seventeen: <span class="mono">check_scam</span>, <span class="mono">check_scam_screenshot</span>, <span class="mono">list_scam_patterns</span>, <span class="mono">generate_upi_qr</span>, <span class="mono">add_records</span>, <span class="mono">get_records_summary</span>, <span class="mono">stock_advice</span>, <span class="mono">remember_fact</span>, <span class="mono">update_profile</span>, <span class="mono">build_blueprint</span>, <span class="mono">scheme_intake</span>, <span class="mono">find_schemes</span>, <span class="mono">search_funding</span>, <span class="mono">match_funding</span>, <span class="mono">draft_application</span>, <span class="mono">set_stage</span> and <span class="mono">suggest_next_step</span>.</div></div>
+
+<div class="qa"><div class="q">What happens if someone asks it something unrelated — cricket scores, or what to cook?</div>
+<div class="a">It declines in one warm sentence and offers the nearest business help, without answering the question. The agent has an explicit scope: fraud and payment safety, UPI and QR, khata, stock and buying, business planning, schemes and applications, and using the app. Anything that touches the business <i>is</i> in scope — a brother helping at the counter during Diwali, a festival affecting sales, a supplier dispute — so it stays useful without becoming a general chatbot. It also never gives medical, legal, investment or relationship advice.</div></div>
+
+<div class="qa"><div class="q">How does one conversation move from fraud to a funding application?</div>
+<div class="a">Every conversation carries a stage — safety, shop QR, khata, blueprint, funding, apply — shown as tabs. Tools change the stage as a side effect (a QR was generated, so we're at onboarding), and at the end of each turn the agent offers one next step as a tappable chip. If the model forgets to offer one, the server adds a sensible next step based on the last tool used, so the journey never stalls.</div></div>
+
+<div class="qa"><div class="q">How does it remember the business between sessions?</div>
+<div class="a">Three layers: a structured <b>profile</b> (shop, city, state, documents, goal…), a list of <b>remembered facts</b> the agent saves as you talk ("husband grinds the batter at night"), and a rolling <b>summary</b> per conversation, refreshed every few turns. All three are injected into the system prompt, along with the khata numbers and stock alerts, so a fresh server process still knows the merchant.</div></div>
+
+<div class="qa"><div class="q">Can the user see and delete what it remembers?</div>
+<div class="a">Yes — the Business profile page lists every remembered fact with a delete button, and Settings has "clear all memory" and account deletion. We treat memory as the user's property, not ours.</div></div>
+
+<div class="qa"><div class="q">What are "structured outputs" and where do you use them?</div>
+<div class="a">Instead of free text we hand the model a strict JSON schema it must fill: the scam verdict, khata entries parsed from speech, the blueprint, the eligibility checks, the scheme recommendations, the buying advice, the image prompts. It makes the answers machine-checkable, which is what lets us validate and override them.</div></div>
+
+<div class="qa"><div class="q">How many AI calls does one chat turn make?</div>
+<div class="a">Usually two to four: one where the model decides to call a tool, one after tool results to write the reply, plus one inside some tools (for instance the scam check or scheme finder is itself a structured AI call). We cap the tool rounds at six to keep costs and latency bounded.</div></div>
+
+<div class="qa"><div class="q">Why do replies appear all at once instead of streaming word by word?</div>
+<div class="a">Vercel's Go runtime buffers the response, so token-by-token streaming isn't available there. We compensate by animating the tool trail as the reply arrives, so the user sees progress rather than a dead screen.</div></div>
+
+<div class="qa"><div class="q">How is translation handled? The brief suggested IndicTrans2.</div>
+<div class="a">IndicTrans2 is a neural translation model you must host on a machine with real memory — it can't run inside a serverless function. So dynamic content (scheme summaries, scam patterns, FAQs) is translated by the same LLM and cached in a Postgres table keyed by a hash of the text, and the interface strings are hand-written in all four languages. We state the trade-off openly; swapping in an IndicTrans2 service later means changing one function.</div></div>
+
+<div class="qa"><div class="q">How do voice input and read-aloud work?</div>
+<div class="a">The browser's own speech recognition and speech synthesis first — they support hi-IN, te-IN and ta-IN in Chrome, cost nothing and respond instantly. If the browser can't, we fall back to server-side transcription and text-to-speech; with our current key those models aren't available, and the app switches silently rather than showing an error.</div></div>
+
+<div class="qa"><div class="q">What happens when an AI call fails?</div>
+<div class="a">Each tool returns a failure marker that the model is told to apologise for briefly and offer an alternative; the trail shows a red cross instead of a tick. Page-level features surface a readable message, and cached results (stock advice, blueprint, illustrations) keep the screens populated. Every call is logged with duration and success to the <span class="mono">ai_calls</span> table, visible in the Mentor desk.</div></div>
+</section>
+
+<section>
+<h2><span class="n">06</span>Stopping the AI from making things up</h2>
+<p class="lede">This is the section mentors are told to probe. Know it cold.</p>
+
+<div class="qa"><div class="q">How do you guarantee a grant deadline isn't invented?</div>
+<div class="a">Two layers. When we extract a scheme from an official page, the model must also return the exact sentence that states the deadline; we then check that sentence appears character-for-character in the page text we fetched. If it doesn't, the deadline is discarded and the card says "Deadline not stated on source — open all year or check the link". And the model is forbidden from writing deadlines in chat at all: the card renders them from the database row.</div></div>
+
+<div class="qa"><div class="q">Show me that in the code.</div>
+<div class="a"><span class="mono">verifyQuote(page, quote)</span> in <span class="mono">app/grants.go</span> — it normalises whitespace and case, requires at least four characters, and does a substring check. It has a unit test with a real quote and a hallucinated one. Amounts go through the same gate.</div></div>
+
+<div class="qa"><div class="q">Where else do you override the model?</div>
+<div class="a">Four places. Blueprint financials are replaced server-side with numbers computed from the khata. Stock quantities in the buying advice are computed from run rates, not taken from the model. Eligibility quotes that don't appear in the scheme text are blanked. And any grant ID the model invents is dropped, because we match it against the rows we sent.</div></div>
+
+<div class="qa"><div class="q">What stops it from recommending a scheme the merchant clearly can't get?</div>
+<div class="a">The prompt names the classic mistakes (a street-vendor scheme for a shop owner, an artisan scheme for a trader, a research call for a food cart, "new units only" for a 14-year-old shop), state-specific schemes are filtered by the merchant's state before the model sees them, and a single clear rule failure forces "not a fit". We also keep the rejected ones visible with reasons instead of quietly dropping them.</div></div>
+
+<div class="qa"><div class="q">Could the fraud checker be wrong?</div>
+<div class="a">It can be, and it says so by design: the verdict has three levels and "suspicious" is used when information is missing, the advice is always safe-by-default (never share a PIN or OTP, check the soundbox, call 1930), and every card carries the helpline. It is a first line of defence, not a legal judgement.</div></div>
+
+<div class="qa"><div class="q">What about the application draft — could it invent an Aadhaar number or a turnover figure?</div>
+<div class="a">The prompt forbids invented facts and requires the marker <span class="mono">[NEEDED: description]</span> instead; the draft view highlights those in yellow and counts them ("3 details needed"). Financial sections are told to use the blueprint's verified figures, which themselves come from the khata.</div></div>
+
+<div class="qa"><div class="q">Why should we believe the numbers on the Overview page?</div>
+<div class="a">Because no AI touches them. Run rates, trends, days of stock left, reorder quantities, weekday averages and profit are SQL and Go arithmetic over the merchant's own entries, and the classification logic has a unit test covering out, critical, low, OK, overstock and not-selling cases.</div></div>
+</section>
+
+<section>
+<h2><span class="n">07</span>Technical architecture</h2>
+<p class="lede">For the technical judge — and so non-technical teammates can name the parts.</p>
+
+<div class="qa"><div class="q">What's the stack?</div>
+<div class="a">A single Go serverless function serves the whole API on Vercel; the interface is React with Vite and one hand-written CSS design system; data lives in Neon Postgres; AI is OpenAI <span class="mono">gpt-4.1-mini</span>. No backend framework, no UI kit, no state library.</div></div>
+
+<div class="qa"><div class="q">Why Go for a hackathon?</div>
+<div class="a">Fast cold starts, a standard library that covers HTTP routing, HTML parsing, XML feeds and concurrency, and a compiler that catches mistakes before deploy. Running the scrapers, the AI calls and the image generation in parallel is a few lines with goroutines.</div></div>
+
+<div class="qa"><div class="q">Why does the function run in Mumbai?</div>
+<div class="a">Because several Indian government portals refuse connections from foreign IP addresses. From Singapore, PM SVANidhi, MUDRA, Stand-Up India and CGTMSE all timed out; from Mumbai (<span class="mono">bom1</span>) they respond. It cost us a little database latency and bought real data.</div></div>
+
+<div class="qa"><div class="q">How is the database organised?</div>
+<div class="a">About twenty tables: <span class="mono">users</span>, <span class="mono">profiles</span>, <span class="mono">memories</span>, <span class="mono">sessions</span>, <span class="mono">messages</span>, <span class="mono">ledger_entries</span>, <span class="mono">stock_items</span>, <span class="mono">stock_moves</span>, <span class="mono">qr_codes</span>, <span class="mono">blueprints</span>, <span class="mono">blueprint_images</span>, <span class="mono">grants</span>, <span class="mono">grant_fits</span>, <span class="mono">drafts</span>, <span class="mono">scam_patterns</span>, <span class="mono">scam_checks</span>, <span class="mono">scraper_runs</span>, <span class="mono">ai_calls</span>, <span class="mono">ai_insights</span>, <span class="mono">translations</span>, <span class="mono">faqs</span>, <span class="mono">tickets</span>. Money is stored as integer paise, never floats. Schema is one embedded SQL file applied idempotently.</div></div>
+
+<div class="qa"><div class="q">How does login work?</div>
+<div class="a">Phone number plus a 4-digit PIN, because that's what merchants already use. The PIN is hashed with bcrypt. The session is a signed cookie — user id, expiry and an HMAC-SHA256 signature over both — set HttpOnly, Secure and SameSite=Lax. There's no OTP because we have no SMS provider; we say so rather than faking it.</div></div>
+
+<div class="qa"><div class="q">How does the front end work without a router or component library?</div>
+<div class="a">A 40-line hook over the History API handles routes, a small context provides user, language, theme and toasts, and a <span class="mono">useData</span> hook does fetch-with-loading. The design system is one CSS file of tokens and components; light and dark are two sets of variables. The result is about 110 KB compressed, and the DOCX exporter is loaded only when someone exports.</div></div>
+
+<div class="qa"><div class="q">How do the four languages work in the interface?</div>
+<div class="a">One TypeScript dictionary per language with about 200 keys, typed so a missing key fails the build — that's how we know nothing is untranslated. Language-specific fonts (Noto Sans Telugu, Noto Sans Tamil, Hind) load with the page, and numbers and dates use the browser's locale formatting.</div></div>
+
+<div class="qa"><div class="q">How is it deployed?</div>
+<div class="a">Push to GitHub, then <span class="mono">vercel deploy --prod</span>; the build runs the Vite build and compiles the Go function. Secrets (OpenAI key, session secret, cron secret, database URL) are Vercel environment variables. A daily cron hits <span class="mono">/api/cron/refresh</span> with a bearer secret to refresh scheme sources and the scam-news feed.</div></div>
+
+<div class="qa"><div class="q">Roughly how much code is it?</div>
+<div class="a">About 6,500 lines of Go across 15 files and about 4,500 lines of TypeScript/CSS — small enough that any teammate can read a whole file in one sitting, which was deliberate.</div></div>
+
+<div class="qa"><div class="q">What would you change if this had to serve 100,000 merchants?</div>
+<div class="a">Move the scrapers and AI generation into a queue instead of request-time, add per-user rate limits, put Postgres in Mumbai next to the functions with read replicas, cache scheme lists at the edge, store images in object storage rather than Postgres, and add proper phone-OTP authentication.</div></div>
+</section>
+
+<section>
+<h2><span class="n">08</span>Live government data &amp; scraping</h2>
+
+<div class="qa"><div class="q">What are the three sources?</div>
+<div class="a">(1) <b>BIRAC calls for proposals</b> — a real HTML table we parse directly, which gives us genuine deadlines. (2) <b>Official scheme portals</b> — PM SVANidhi, MUDRA, Stand-Up India, CGTMSE and Atal Innovation Mission, where the page text is read and the AI extracts schemes under quote verification. (3) A <b>scheme directory</b> of well-known central and state schemes with hand-written summaries and official links, whose links are re-checked on every refresh.</div></div>
+
+<div class="qa"><div class="q">Why a hand-written directory — isn't that cheating on "live data"?</div>
+<div class="a">It's the honest split. Programme facts like "PM SVANidhi is a collateral-free working-capital loan for street vendors" don't change weekly, and an LLM writing them from memory is exactly the hallucination risk we're avoiding. So those summaries are written by us and carry no amounts or deadlines; anything time-sensitive comes from the live sources, and each directory link is verified to still respond, with the check time shown.</div></div>
+
+<div class="qa"><div class="q">How fresh is the data, and how do you show it?</div>
+<div class="a">A daily cron, an admin refresh button, and an automatic refresh when the newest data is over 24 hours old. Every card shows "checked 2 hours ago", and the funding page has a source-health strip with per-source counts and errors.</div></div>
+
+<div class="qa"><div class="q">What happens when a source breaks?</div>
+<div class="a">The last good rows stay, the run is logged with the error, and the source shows red. Right now MUDRA's site has a broken TLS certificate chain — we deliberately did <i>not</i> disable certificate checking to work around it, because an app that tells people about fraud shouldn't accept unverified connections. It shows as a failing source instead.</div></div>
+
+<div class="qa"><div class="q">Why not use the myScheme API?</div>
+<div class="a">We tried; its search API returned server errors for every request we made, from two networks. Rather than fake it, we used sources that actually respond and documented the attempt.</div></div>
+
+<div class="qa"><div class="q">Is scraping these sites acceptable?</div>
+<div class="a">We read a handful of public government pages once a day with an identifying user agent, cache the result, and link users to the official page rather than replacing it. No logins, no paywalls, no bulk crawling.</div></div>
+</section>
+
+<section>
+<h2><span class="n">09</span>Security, privacy and money safety</h2>
+
+<div class="qa"><div class="q">What does Finro refuse to ask for?</div>
+<div class="a">UPI PIN, OTP, passwords, full Aadhaar and bank account numbers. It's written into the agent's instructions, and if a user volunteers one the assistant is told to warn them instead of storing it.</div></div>
+
+<div class="qa"><div class="q">How is the merchant's data protected?</div>
+<div class="a">PINs are bcrypt-hashed; sessions are signed cookies with server-side secrets; every database query is parameterised, so there's no SQL injection surface; every route scopes rows to the logged-in user id, and QR images and blueprint pictures are only served to their owner. Admin-only routes check the role server-side.</div></div>
+
+<div class="qa"><div class="q">Can a merchant delete their data?</div>
+<div class="a">Yes. Settings has "clear all memory" and "delete my account", which requires the PIN and cascades to every related row — chats, khata, stock, blueprints, drafts.</div></div>
+
+<div class="qa"><div class="q">You let an AI produce SVG images. Isn't that a security risk?</div>
+<div class="a">It would be if we served it blindly. The SVG passes a strict allow-list sanitiser: only shape and gradient elements survive, and anything with a script, event handler, embedded image, external link or stylesheet is rejected outright. It's served with <span class="mono">Content-Security-Policy: default-src 'none'</span> and <span class="mono">nosniff</span>, and rendered only inside an <span class="mono">&lt;img&gt;</span> tag, where scripts can't run anyway. There's a unit test with six malicious payloads.</div></div>
+
+<div class="qa"><div class="q">What about uploaded photos and screenshots?</div>
+<div class="a">They're checked to be images, resized in the browser before upload to keep requests small, sent to the AI for the check, and not stored — the conversation keeps a marker that an image was attached, not the image.</div></div>
+
+<div class="qa"><div class="q">What security work is still missing?</div>
+<div class="a">Per-user rate limiting, phone-number verification by OTP, an audit log for admin actions, and encryption of the khata at rest beyond what the database provides. We'd rather name these than claim they're done.</div></div>
+</section>
+
+<section>
+<h2><span class="n">10</span>Testing and what we verified</h2>
+
+<div class="qa"><div class="q">What is actually tested?</div>
+<div class="a">Go unit tests cover the UPI link builder and VPA validation, the BIRAC parser against a saved copy of the real page, quote verification with a genuine and a hallucinated quote, grant open/closed/rolling status, stock classification across all six states, the advice grounding guard, and the SVG sanitiser against six attack payloads.</div></div>
+
+<div class="qa"><div class="q">How do you test the whole thing end to end?</div>
+<div class="a"><span class="mono">node scripts/smoke.mjs</span> runs 15 checks against the live deployment: wrong PIN rejected, login, khata numbers, Hindi voice parsing into correct entries, bad UPI ID rejected, QR creation and PNG, a scam message correctly flagged, grants present with no unquoted deadlines, blueprint financials matching the khata exactly, matching producing rule-by-rule results with the biotech call excluded, a draft with NEEDED markers, the FAQ answer, voice availability, admin access denied to non-admins, and the admin overview.</div></div>
+
+<div class="qa"><div class="q">How did you check the interface?</div>
+<div class="a">We drove the deployed app in a browser and inspected the live DOM across ten pages in both light and dark mode at phone width (375 px): no console errors, no horizontal overflow, headings and content present in each language. The scheme-finder flow was completed through the real UI as Lakshmi, and the AI artwork was verified by rendering it to a canvas and measuring drawn pixels.</div></div>
+
+<div class="qa"><div class="q">What isn't tested?</div>
+<div class="a">The screenshot fraud check hasn't been run end to end with a real screenshot, there are no automated browser tests, and the seeded sample data — while realistic — is generated, not collected from real shops.</div></div>
+</section>
+
+<section>
+<h2><span class="n">11</span>Honest limitations</h2>
+<p class="lede">Say these before a judge finds them. It buys credibility.</p>
+<table>
+  <tr><th>Limitation</th><th>Why, and what we'd do</th></tr>
+  <tr><td>No AI photo-realistic images</td><td>Our API key has access to exactly one model, <span class="mono">gpt-4.1-mini</span>. The flowchart art is AI-drawn vector work instead; enabling <span class="mono">gpt-image-1</span> on the key switches it over with no code change.</td></tr>
+  <tr><td>No server voice models</td><td>Same key limitation. Voice uses the browser's speech engine, which covers Hindi, Telugu and Tamil in Chrome but not every phone.</td></tr>
+  <tr><td>No recipe link between dishes and ingredients</td><td>Selling 40 idlis doesn't yet deduct rice and dal automatically; ingredient use is tracked separately. A simple per-dish recipe table would close this.</td></tr>
+  <tr><td>Scheme matching uses tag overlap</td><td>We rank candidates by tag overlap before the AI checks rules. Fine for ~50 schemes; embeddings would be needed for thousands.</td></tr>
+  <tr><td>No OTP verification</td><td>Anyone who knows a phone number and PIN can log in. Real deployment needs SMS OTP.</td></tr>
+  <tr><td>Replies aren't streamed</td><td>Vercel's Go runtime buffers responses; the animated tool trail keeps the wait legible.</td></tr>
+  <tr><td>Two sources currently failing</td><td>MUDRA has a broken certificate chain and the Atal Innovation Mission homepage lists no calls. Both show as failing rather than being hidden.</td></tr>
+  <tr><td>Demo data is synthetic</td><td>Realistic and internally consistent — sales derived from item-level history — but not from real shops.</td></tr>
+  <tr><td>No offline mode</td><td>Needed for vendors with patchy data. Local-first entry with sync is the next step.</td></tr>
+</table>
+</section>
+
+<section>
+<h2><span class="n">12</span>Hard questions from judges</h2>
+
+<div class="qa"><div class="q">"Isn't this just a ChatGPT wrapper?"</div>
+<div class="a">A wrapper passes your question to a model and prints the answer. Here the model can't state a deadline, an amount or a financial figure at all — those are rendered from database rows that passed quote verification, or computed from the merchant's khata. The model's job is judgement and language; the app owns the facts. Remove the AI and you still have a working QR generator, ledger, stock tracker and live scheme database.</div></div>
+
+<div class="qa"><div class="q">"How is this different from myScheme or a government portal?"</div>
+<div class="a">A portal answers "what schemes exist". Finro answers "what can <i>I</i> get, am I eligible, and here is my application half-written" — using records it helped the merchant build, in their language, starting from a problem they feel today (fraud) rather than paperwork they're avoiding.</div></div>
+
+<div class="qa"><div class="q">"Why would a vendor trust an app with her ledger?"</div>
+<div class="a">Because she gets something immediately — a scam checked, a QR printed — before being asked for anything. Nothing is saved without her tap, she can see and delete everything Finro remembers, and the app never asks for a PIN or OTP, which is exactly the behaviour we teach her to expect from anyone legitimate.</div></div>
+
+<div class="qa"><div class="q">"What's the business model?"</div>
+<div class="a">Free for merchants. The value is in the aggregate: lenders and scheme facilitators pay for verified, consented application-ready borrower profiles; FMCG distributors pay for demand signals; state missions fund vendor onboarding. None of that requires charging the vendor.</div></div>
+
+<div class="qa"><div class="q">"What if the AI gives harmful financial advice?"</div>
+<div class="a">Scope limits it: no investment advice, no interest-rate promises, no eligibility guarantees. Scheme cards push the user to the official page for the rules, matching outputs "unknown" rather than assuming, and the fraud advice is always the conservative action. The riskier the claim, the more the app renders facts instead of letting the model talk.</div></div>
+
+<div class="qa"><div class="q">"You had 5 hours. What did you cut?"</div>
+<div class="a">Streaming replies (runtime limitation), offline mode, OTP login, per-dish recipes and automated browser tests. What we refused to cut: quote verification, computed numbers, the four languages, and the honest display of failing data sources.</div></div>
+
+<div class="qa"><div class="q">"What would you build next, in order?"</div>
+<div class="a">Offline-first khata entry with sync; SMS OTP login; per-dish recipes so dish sales deduct ingredients; WhatsApp as a second front end, since that's where merchants already live; and a facilitator dashboard so an NGO or bank field officer can help twenty merchants at once.</div></div>
+
+<div class="qa"><div class="q">"Show me the single most impressive technical detail."</div>
+<div class="a">Quote verification. The model must return the exact sentence supporting every deadline or amount it extracts, and we check that sentence really exists on the page we fetched — so the system can only repeat what a government site actually says, and says "not stated on source" otherwise. It's twelve lines of Go, has a unit test, and it's the difference between a demo and something a merchant could act on.</div></div>
+</section>
+
+<section>
+<h2><span class="n">13</span>Plain-English glossary</h2>
+<p class="lede">Enough to follow any technical question in the room.</p>
+<div class="two">
+<div class="qa"><div class="q">API / endpoint</div><div class="a">The set of web addresses our app's screens call to get or save data, e.g. <span class="mono">/api/records</span>.</div></div>
+<div class="qa"><div class="q">Front end / back end</div><div class="a">Front end is what runs in the phone browser; back end is the code on the server.</div></div>
+<div class="qa"><div class="q">Serverless function</div><div class="a">Server code that starts on demand per request; no machine to run or pay for when idle.</div></div>
+<div class="qa"><div class="q">LLM</div><div class="a">Large language model — the AI that reads and writes text. Ours is <span class="mono">gpt-4.1-mini</span>.</div></div>
+<div class="qa"><div class="q">Prompt</div><div class="a">The instructions we send the model with each request: who it is, the rules, the data.</div></div>
+<div class="qa"><div class="q">Token</div><div class="a">A chunk of text (roughly ¾ of a word). AI usage is billed per token.</div></div>
+<div class="qa"><div class="q">Tool / function calling</div><div class="a">Letting the model ask our code to do something real instead of guessing the answer.</div></div>
+<div class="qa"><div class="q">Structured output / JSON schema</div><div class="a">Forcing the model to answer in a fixed data shape so we can check it.</div></div>
+<div class="qa"><div class="q">Hallucination</div><div class="a">When a model states something plausible but untrue — the risk this project is built to contain.</div></div>
+<div class="qa"><div class="q">Scraping</div><div class="a">Reading a web page with code to pull out facts like titles and dates.</div></div>
+<div class="qa"><div class="q">Cron job</div><div class="a">A task that runs automatically on a schedule; ours refreshes scheme data daily.</div></div>
+<div class="qa"><div class="q">Postgres</div><div class="a">The database. Neon is a hosted Postgres service.</div></div>
+<div class="qa"><div class="q">bcrypt / HMAC</div><div class="a">Standard ways to store a PIN safely and to sign a login cookie so it can't be forged.</div></div>
+<div class="qa"><div class="q">SVG</div><div class="a">An image described with shapes and coordinates instead of pixels, so it stays sharp at any size.</div></div>
+<div class="qa"><div class="q">UPI VPA</div><div class="a">A UPI ID like <span class="mono">name@okaxis</span> — the address money is sent to.</div></div>
+<div class="qa"><div class="q">Khata / udhaar</div><div class="a">The shop ledger, and goods given on credit that a customer still owes.</div></div>
+<div class="qa"><div class="q">Run rate</div><div class="a">How much of an item sells per day on average — the basis of every stock alert.</div></div>
+<div class="qa"><div class="q">Udyam registration</div><div class="a">Free government MSME registration; the gateway to most schemes and priority-sector loans.</div></div>
+</div>
+</section>
+
+</body>
+</html>

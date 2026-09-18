@@ -1,0 +1,9 @@
+node_modules
+web/dist
+.env*
+.vercel
+*.exe
+
+.vercel
+.env*
+.neon
